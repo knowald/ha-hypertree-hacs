@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HA Hypertree",
+        "description": "This will add a Hypertree panel to your sidebar."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Already configured."
+    }
+  }
+}

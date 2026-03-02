@@ -1,0 +1,11 @@
+{
+  "domain": "ha_hypertree",
+  "name": "HA Hypertree",
+  "version": "0.0.0",
+  "documentation": "https://github.com/knowald/ha-hypertree",
+  "issue_tracker": "https://github.com/knowald/ha-hypertree/issues",
+  "codeowners": ["@knowald"],
+  "config_flow": true,
+  "iot_class": "local_push",
+  "integration_type": "service"
+}
