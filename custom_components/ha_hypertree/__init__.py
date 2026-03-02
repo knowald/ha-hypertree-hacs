@@ -4,32 +4,33 @@ from pathlib import Path
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.components import frontend
+from homeassistant.components.frontend import async_register_built_in_panel, async_remove_panel
+from homeassistant.components.http import StaticPathConfig
 import homeassistant.helpers.config_validation as cv
 
 DOMAIN = "ha_hypertree"
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
+JS_URL = f"/{DOMAIN}/hypertree.js"
+
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    panel_dir = Path(__file__).parent
-    panel_path = str(panel_dir / "hypertree.js")
+    panel_path = str(Path(__file__).parent / "hypertree.js")
 
-    hass.http.register_static_path(
-        f"/{DOMAIN}/hypertree.js", panel_path, cache_headers=False
+    await hass.http.async_register_static_paths(
+        [StaticPathConfig(JS_URL, panel_path, False)]
     )
 
-    frontend.async_register_built_in_panel(
-        hass,
-        "custom",
+    async_register_built_in_panel(
+        hass=hass,
+        component_name="custom",
         sidebar_title="Hypertree",
         sidebar_icon="mdi:graph",
         frontend_url_path="hypertree",
         config={
             "_panel_custom": {
                 "name": "ha-panel-hypertree",
-                "js_url": f"/{DOMAIN}/hypertree.js",
-                "embed_iframe": False,
+                "js_url": JS_URL,
             }
         },
     )
@@ -38,5 +39,5 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    frontend.async_remove_panel(hass, "hypertree")
+    async_remove_panel(hass, "hypertree")
     return True
