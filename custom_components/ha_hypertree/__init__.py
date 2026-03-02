@@ -4,14 +4,11 @@ from pathlib import Path
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.typing import ConfigType
 from homeassistant.components import frontend
+import homeassistant.helpers.config_validation as cv
 
 DOMAIN = "ha_hypertree"
-
-
-async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
-    return True
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
